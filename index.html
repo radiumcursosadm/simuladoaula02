@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Simulado - Física das Radiações e Radiodiagnóstico | Radium Cursos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #eef2f7;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            padding: 30px 20px;
+            color: #1e2a3a;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.15);
+            overflow: hidden;
+            padding: 20px 25px 35px;
+        }
+
+        .header-simulador {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #dcecf3;
+            padding-bottom: 20px;
+        }
+        .titulo-principal {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0b3b5f, #1b6b87);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+        .radium {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #0f5c7a;
+            margin: 6px 0 4px;
+        }
+        .professor {
+            font-size: 1rem;
+            color: #2c6e9e;
+            background: #eef3fc;
+            display: inline-block;
+            padding: 5px 18px;
+            border-radius: 40px;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+        .sub {
+            color: #2c6e9e;
+            border-left: 4px solid #2c6e9e;
+            padding-left: 15px;
+            margin: 10px 0 15px 0;
+            font-weight: 500;
+        }
+        .aluno-area {
+            background: #f0f6fa;
+            border-radius: 60px;
+            padding: 12px 20px;
+            margin: 15px 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        .aluno-label {
+            font-weight: 600;
+            color: #0b3b5f;
+        }
+        #nomeAluno {
+            flex: 2;
+            min-width: 180px;
+            padding: 10px 18px;
+            border: 1px solid #cbdde6;
+            border-radius: 40px;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.2s;
+        }
+        #nomeAluno:focus {
+            border-color: #1b6b87;
+            box-shadow: 0 0 0 2px rgba(27,107,135,0.2);
+        }
+        .registro-info {
+            font-size: 0.8rem;
+            background: #e2edf2;
+            padding: 6px 12px;
+            border-radius: 30px;
+            color: #1f5e7a;
+        }
+        .ordem-info {
+            font-size: 0.75rem;
+            color: #608b9e;
+            text-align: right;
+            margin-bottom: 10px;
+            font-style: italic;
+            background: #eef3fc;
+            padding: 8px 15px;
+            border-radius: 30px;
+            display: inline-block;
+            width: auto;
+        }
+
+        .questoes-area {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            margin: 25px 0 30px;
+        }
+
+        .questao-card {
+            background: #f9fbfd;
+            border-radius: 24px;
+            border: 1px solid #e2edf2;
+            padding: 20px 24px;
+            transition: 0.1s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .questao-card:hover {
+            background: #ffffff;
+            border-color: #bed6e3;
+        }
+
+        .questao-num {
+            display: inline-block;
+            background: #0b3b5f;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+            padding: 4px 12px;
+            border-radius: 40px;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+        .banca-ano {
+            font-size: 0.7rem;
+            color: #2c6e9e;
+            background: #eaf4f9;
+            display: inline-block;
+            margin-left: 12px;
+            padding: 3px 12px;
+            border-radius: 30px;
+            font-weight: 500;
+        }
+        .id-original {
+            font-size: 0.7rem;
+            color: #608b9e;
+            background: #f0f0f0;
+            display: inline-block;
+            margin-left: 12px;
+            padding: 3px 10px;
+            border-radius: 30px;
+            font-weight: normal;
+        }
+
+        .enunciado {
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-bottom: 18px;
+            line-height: 1.4;
+            color: #0a2c3d;
+        }
+
+        .alternativas {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-left: 8px;
+            margin-top: 8px;
+        }
+
+        .alt-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 6px 8px;
+            border-radius: 14px;
+            transition: background 0.1s;
+            cursor: pointer;
+        }
+
+        .alt-item:hover {
+            background: #eef3fc;
+        }
+
+        input[type="radio"] {
+            margin-top: 3px;
+            accent-color: #1b6b87;
+            transform: scale(1.05);
+            cursor: pointer;
+        }
+
+        label {
+            font-size: 0.96rem;
+            line-height: 1.4;
+            color: #1f3b4c;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .botoes-acao {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0 15px;
+        }
+
+        button {
+            background: #1f6e8c;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 60px;
+            font-weight: bold;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        button:hover {
+            background: #0e4d66;
+            transform: translateY(-1px);
+        }
+
+        .btn-sec {
+            background: #4b6f86;
+        }
+
+        .btn-sec:hover {
+            background: #2c556e;
+        }
+
+        .resultado-area {
+            background: #e2f0f5;
+            border-radius: 28px;
+            padding: 20px 25px;
+            margin-top: 20px;
+            border-left: 6px solid #0b3b5f;
+        }
+
+        .resultado-titulo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .nota {
+            background: #0f5c7a;
+            color: white;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-size: 1.2rem;
+        }
+
+        .gabarito-lista {
+            background: white;
+            border-radius: 20px;
+            padding: 15px 20px;
+            margin: 15px 0;
+            max-height: 320px;
+            overflow-y: auto;
+            font-size: 0.85rem;
+        }
+
+        .gabarito-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #e2edf2;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: baseline;
+        }
+
+        .melhorias {
+            background: #fff6e0;
+            padding: 15px 20px;
+            border-radius: 20px;
+            margin-top: 15px;
+        }
+
+        .impressao-info {
+            margin-top: 15px;
+            text-align: right;
+            font-size: 0.8rem;
+            color: #3a6b8c;
+        }
+        .registro-msg {
+            background: #cbe5f0;
+            padding: 8px 15px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            margin-top: 10px;
+            text-align: center;
+        }
+        footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.75rem;
+            color: #608b9e;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 15px;
+            }
+            .questao-card {
+                padding: 15px;
+            }
+            button {
+                padding: 8px 18px;
+            }
+            .titulo-principal {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header-simulador">
+        <div class="titulo-principal">📡 Simulado - Física das Radiações e Radiodiagnóstico</div>
+        <div class="radium">Radium Cursos</div>
+        <div class="professor">✍️ Desenvolvido pelo Prof. Jorge Alberto</div>
+    </div>
+    <div class="sub">Baseado em questões oficiais de concurso • 20 questões • Física das Radiações</div>
+
+    <div class="aluno-area">
+        <span class="aluno-label">👨‍🎓 Nome do aluno:</span>
+        <input type="text" id="nomeAluno" placeholder="Digite seu nome completo" autocomplete="off">
+        <div class="registro-info">📌 Seu desempenho será registrado internamente</div>
+    </div>
+    <div style="text-align: center; margin-bottom: 15px;">
+        <div class="ordem-info">🔀 As questões são apresentadas em ordem numérica (1 a 20), mas o conteúdo de cada posição é sorteado aleatoriamente a cada acesso!</div>
+    </div>
+
+    <div id="simulado-app">
+        <div id="questoes-container" class="questoes-area"></div>
+
+        <div class="botoes-acao">
+            <button id="btnCorrigir">✅ Corrigir Simulado</button>
+            <button id="btnLimpar" class="btn-sec">🔄 Limpar respostas</button>
+            <button id="btnImprimirPDF" class="btn-sec">🖨️ Imprimir / PDF do Resultado</button>
+        </div>
+
+        <div id="resultadoPanel" style="display: none;"></div>
+        <div id="registroFeedback" class="registro-msg" style="display: none;"></div>
+    </div>
+    <footer>Simulado com base em questões reais de concursos — Gabarito oficial incluso. Aperfeiçoe seus conhecimentos!</footer>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // BASE DE DADOS DAS QUESTÕES (20 questões)
+    // QUESTÃO 18 CORRIGIDA: GABARITO ALTERADO PARA "B"
+    // --------------------------------------------------------------
+    const questoesBase = [
+        { idOriginal: 1, enunciado: "Roentgen descobriu os raios X em 1895 utilizando uma ampola de Crookes, exibiu a primeira radiografia realizada em 1901 e recebeu o primeiro Prémio Nobel de Física da história. Sobre as propriedades dos raios X, marque a opção CORRETA:", alternativas: ["Propagam-se em linha reta e com velocidade maior que luz.", "Possuem carga elétrica.", "São desviados por campos elétricos ou magnéticos.", "Produzem ionização por onde passam e impressionam filmes fotográficos.", "Possuem massa."], correta: "D", tema: "Propriedades dos Raios X", banca: "COPESE - UFPI", ano: 2026 },
+        { idOriginal: 2, enunciado: "Considerando um feixe de raios X incidente em uma chapa de aço carbono, analise as assertivas: I. O fóton pode ser completamente absorvido. II. O fóton pode sofrer espalhamento (efeito Compton). III. O fóton pode atravessar sem interação. Está correto o que se afirma em:", alternativas: ["I e II, apenas.", "I e III, apenas.", "II e III, apenas.", "I, II e III.", "nenhuma das assertivas."], correta: "D", tema: "Interação da Radiação", banca: "FGV", ano: 2026 },
+        { idOriginal: 3, enunciado: "A radiação X, por ser uma radiação ionizante de natureza eletromagnética, não necessita de um meio material para se propagar e, diferentemente das partículas alfa e beta, não possui massa nem carga elétrica, o que a torna menos ionizante, porém geralmente mais penetrante que as radiações corpusculares de mesma energia, devido à interação predominantemente por efeito Compton em tecidos moles para energias diagnósticas.", alternativas: ["Certo", "Errado"], correta: "C", tema: "Propriedades da Radiação X", banca: "Instituto IBED", ano: 2025 },
+        { idOriginal: 4, enunciado: "I. Na ausência de carga elétrica, os raios X demonstram maior capacidade de penetração em comparação com outros tipos de radiação ionizante. II. Na produção de imagens radiográficas, o filme de raios X é inserido em um cassette, posicionado entre duas telas fluorescentes que emitem luz quando expostas aos raios X. Essa luz é a principal responsável pelo escurecimento do filme. III. Geralmente, apenas cerca de 10% dos raios X incidentes penetram no paciente, e apenas dois terços desses são do tipo secundário. Está correto o que se afirma em:", alternativas: ["I, apenas.", "I e II, apenas.", "I e III, apenas.", "II e III, apenas.", "I, II e III."], correta: "B", tema: "Propriedades e Formação de Imagem", banca: "Avança SP", ano: 2024 },
+        { idOriginal: 5, enunciado: "Um feixe de raios X incide sobre um alvo composto por um material de número atômico elevado. Sobre a relação entre número atômico e eficiência na produção de raios X:", alternativas: ["O aumento do número atômico diminui a eficiência.", "O número atômico não influencia a produção.", "O aumento do número atômico aumenta a eficiência, gerando raios X de maior energia.", "Materiais de baixo número atômico são mais eficientes.", "A eficiência é inversamente proporcional ao quadrado do número atômico."], correta: "C", tema: "Produção de Raios X / Número Atômico", banca: "FURB", ano: 2024 },
+        { idOriginal: 6, enunciado: "Para se obter o valor da energia depositada nas imediações da trajetória de uma partícula carregada, é importante descontar as perdas que ocorrem longe dela. Elétrons podem gerar, na interação, fótons de freamento que têm chance de serem absorvidos longe da trajetória. Esse efeito denomina-se:", alternativas: ["Efeito Compton.", "Efeito fotoelétrico.", "Radiação de freamento.", "Transferência linear de energia."], correta: "D", tema: "Radiação de Freamento / LET", banca: "FUNDATEC", ano: 2024 },
+        { idOriginal: 7, enunciado: "Para a captação de imagem em filme, densidade, contraste, distorção e resolução espacial representam parâmetros essenciais para a obtenção de uma imagem de qualidade.", alternativas: ["Certo", "Errado"], correta: "C", tema: "Qualidade da Imagem", banca: "CESPE/CEBRASPE", ano: 2024 },
+        { idOriginal: 8, enunciado: "Na produção de raios X, a seleção dos parâmetros afeta a qualidade e a quantidade. Sobre esses fatores, assinale a alternativa incorreta:", alternativas: ["Alterando o mAs, modifica-se linearmente a quantidade de fótons, mas a energia é a mesma.", "Aumentando o kV a radiação terá maior capacidade de penetração, e serão emitidos mais fótons. Isto ocorre porque a intensidade é diretamente proporcional ao kVp.", "Para a faixa entre 60 a 100 kVp a cada 15% de incremento do kV pode-se reduzir o mAs em 50%.", "Com o aumento da energia, maior é a intensidade dos fótons. Quanto menor a densidade do tecido, menor será a absorção.", "Aumentando o número atômico (Z) do alvo, aumenta-se a eficiência na produção de radiação de freamento."], correta: "B", tema: "Parâmetros Técnicos", banca: "IBFC", ano: 2023 },
+        { idOriginal: 9, enunciado: "A respeito dos fatores de qualidade de imagem, relacione as colunas e assinale a sequência correta: (1) Densidade. (2) Contraste. (3) Resolução Espacial. (4) Distorção. ( ) Diferença de densidade entre áreas adjacentes. ( ) Nitidez das estruturas. ( ) Principal fator controlador é a mAs. ( ) Representação errônea do tamanho ou forma.", alternativas: ["2 - 4 - 1 - 3", "1 - 4 - 2 - 3", "3 - 2 - 1 - 4", "2 - 3 - 1 - 4", "1 - 3 - 2 - 4"], correta: "D", tema: "Fatores de Qualidade", banca: "OBJETIVA", ano: 2023 },
+        { idOriginal: 10, enunciado: "Assinale a alternativa que apresenta quais os fatores que devem ser utilizados para avaliar a qualidade da imagem digital.", alternativas: ["Brilho - Densidade óssea - Resolução espacial - Distorção - Indicador de exposição - Ruído", "Brilho - Resolução do contraste - Resolução espacial - Distorção - Indicador de exposição - Distância Objeto Filme", "Brilho - Resolução do contraste - Resolução espacial - Distorção - Indicador de exposição - Ruído", "Brilho - Resolução do fixador e revelador - Resolução espacial - Distorção - Indicador de exposição - Ruído"], correta: "C", tema: "Qualidade da Imagem Digital", banca: "CESPE/CEBRASPE", ano: 2024 },
+        { idOriginal: 11, enunciado: "Em relação às propriedades dos feixes de raios-X, assinale a alternativa correta.", alternativas: ["Produzem radiação primária em todos os corpos que incidem e não atravessam os objetos.", "Enegrecem emulsões fotográficas e produzem radiação secundária em todos os corpos que incidem.", "Enegrecem emulsões fotográficas e produzem radiação primária em todos os corpos que incidem.", "Produzem radiação secundária em todos os corpos que incidem e não atravessam os objetos.", "Atravessam objetos e produzem radiação primária em todos os corpos que incidem."], correta: "B", tema: "Propriedades dos Raios X", banca: "FUNDATEC", ano: 2019 },
+        { idOriginal: 12, enunciado: "A transmissão de radiação de um meio para o outro ocorre, necessariamente, por intermédio de ondas eletromagnéticas — por exemplo, calor, luz visível e raios X.", alternativas: ["Certo", "Errado"], correta: "E", tema: "Transmissão de Radiação", banca: "CESPE/CEBRASPE", ano: 2018 },
+        { idOriginal: 13, enunciado: "Os raios X são considerados de baixo LET (transferência linear de energia), pois após a primeira interação com a matéria emitem radiação indiretamente ionizante, o que pode resultar em elétrons por efeito fotoelétrico, por espalhamento Compton ou por formação de pares.", alternativas: ["Certo", "Errado"], correta: "C", tema: "LET e Interações", banca: "CESPE/CEBRASPE", ano: 2018 },
+        { idOriginal: 14, enunciado: "Em um paciente, o raio x diagnóstico interage através de absorção fotoelétrica ou através de efeito Compton. Sobre estas interações, assinale a alternativa INCORRETA:", alternativas: ["A absorção fotoelétrica envolve interação e absorção completas pelo átomo do fóton incidente.", "As interações fotoelétricas caem rapidamente com o aumento da energia e aumentam com o aumento do número atômico.", "O chumbo é utilizado como protetor devido ao alto número atômico, e os ossos absorvem mais radiação que os tecidos moles.", "No fenômeno Compton, o raio X incidente atinge um elétron de órbita externa, produzindo energia dispersa.", "A absorção fotoelétrica não envolve interação e absorção completas pelo átomo do fóton incidente."], correta: "E", tema: "Interações da Radiação", banca: "FUNDATEC", ano: 2019 },
+        { idOriginal: 15, enunciado: "A produção da imagem de extremidades, como mãos, utilizando energia de feixe de 35 keV, deve ser realizada sem a grade antidifusora (Bucky) devido à predominância do efeito Compton.", alternativas: ["Certo", "Errado"], correta: "A", tema: "Grade Antidifusora", banca: "CESPE/CEBRASPE", ano: 2010 },
+        { idOriginal: 16, enunciado: "Sobre as características das radiações, assinale a alternativa correta.", alternativas: ["As radiações corpusculares são partículas atômicas ou subatômicas energéticas, como partículas alfa, gama, pósitrons, nêutrons, prótons e elétrons.", "Radiação ionizante é aquela que produz ionização em um meio, como os raios X que são diretamente ionizantes e as partículas alfa e beta que são indiretamente ionizantes.", "As partículas alfa apresentam maior poder de penetração que as partículas beta devido a sua massa atômica.", "Uma onda eletromagnética é definida como um campo elétrico e um campo magnético oscilantes, perpendiculares entre si, que se propagam no vácuo com velocidade da luz, como os raios X.", "Os nêutrons têm carga positiva e têm maior poder de penetração que os raios X e os raios gama."], correta: "B", tema: "Características das Radiações", banca: "INSTITUTO AOCP", ano: 2026 },
+        { idOriginal: 17, enunciado: "Na radiologia, lida-se com radiações ionizantes que podem ser de natureza corpuscular ou eletromagnética. Os raios X e os raios Gama são ambos radiações eletromagnéticas ionizantes, mas diferem quanto à sua origem. Assinale a alternativa correta.", alternativas: ["Não há diferença física ou de origem, apenas a nomenclatura varia conforme o uso médico.", "Os raios X têm origem nuclear, enquanto os raios Gama são produzidos em tubos de vácuo.", "Os raios X são partículas pesadas, enquanto os raios Gama são ondas leves.", "Os raios X possuem carga elétrica positiva, enquanto os raios Gama são neutros.", "Os raios X são originados na eletrosfera (interações eletrônicas) ou por desaceleração de elétrons, enquanto os raios Gama são originados no núcleo atômico instável."], correta: "E", tema: "Raios X vs Raios Gama", banca: "IDCAP", ano: 2026 },
+        { idOriginal: 18, enunciado: "Sobre as interações da radiação com a matéria, assinale a alternativa CORRETA:", alternativas: ["Em um paciente, o raio x diagnóstico interage através de absorção fotoelétrica ou através de efeito Compton.", "A absorção fotoelétrica não envolve interação e absorção completas pelo átomo do fóton incidente.", "As interações fotoelétricas caem rapidamente com o aumento da energia e aumentam rapidamente com o aumento do número atômico.", "O mecanismo na alternativa c justifica o chumbo como protetor utilizado nos aventais e o porquê de os ossos absorverem mais radiação que os tecidos moles.", "No fenômeno Compton, o raio X incidente atinge um elétron de órbita externa, produzindo energia dispersa."], correta: "B", tema: "Interações da Radiação", banca: "FUNDATEC", ano: 2019 },
+        { idOriginal: 19, enunciado: "Os diferentes tipos de radiações apresentam características que determinam o seu uso na medicina. Sobre as características das radiações, assinale a alternativa correta.", alternativas: ["As radiações corpusculares são partículas atômicas ou subatômicas energéticas, como partículas alfa, gama, pósitrons, nêutrons, prótons e elétrons.", "Radiação ionizante é aquela que produz ionização em um meio, como os raios X que são diretamente ionizantes e as partículas alfa e beta que são indiretamente ionizantes.", "As partículas alfa apresentam maior poder de penetração que as partículas beta devido a sua massa atômica.", "Uma onda eletromagnética é definida como um campo elétrico e um campo magnético oscilantes, perpendiculares entre si, que se propagam no vácuo com velocidade da luz, como os raios X.", "Os nêutrons têm carga positiva e têm maior poder de penetração que os raios X e os raios gama."], correta: "D", tema: "Características das Radiações", banca: "INSTITUTO AOCP", ano: 2026 },
+        { idOriginal: 20, enunciado: "Os raios X e os raios Gama são ambos radiações eletromagnéticas ionizantes, mas diferem quanto à sua origem. Assinale a alternativa correta.", alternativas: ["Não há diferença física ou de origem, apenas a nomenclatura varia conforme o uso médico.", "Os raios X têm origem nuclear, enquanto os raios Gama são produzidos em tubos de vácuo.", "Os raios X são partículas pesadas, enquanto os raios Gama são ondas leves.", "Os raios X possuem carga elétrica positiva, enquanto os raios Gama são neutros.", "Os raios X são originados na eletrosfera (interações eletrônicas) ou por desaceleração de elétrons, enquanto os raios Gama são originados no núcleo atômico instável."], correta: "E", tema: "Raios X vs Raios Gama", banca: "IDCAP", ano: 2026 }
+    ];
+
+    // FUNÇÃO PARA EMBARALHAR AS QUESTÕES (Fisher-Yates)
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    // Criar cópia embaralhada das questões
+    // As questões serão exibidas na ordem 1, 2, 3... 20, mas cada posição receberá uma questão aleatória do banco
+    let questoesEmbaralhadas = shuffleArray([...questoesBase]);
+    
+    // Mapear para que a posição 1 (visual) receba a primeira questão embaralhada, etc.
+    // Isso mantém a numeração sequencial 1 a 20, mas o conteúdo é aleatório
+    let questoes = questoesEmbaralhadas.map((q, idx) => {
+        return {
+            ...q,
+            numeroVisual: idx + 1,  // número sequencial 1 a 20
+            idOriginal: q.idOriginal
+        };
+    });
+    
+    let respostasUsuario = new Array(questoes.length).fill(null);
+    const container = document.getElementById("questoes-container");
+    const nomeInput = document.getElementById("nomeAluno");
+
+    function renderizarQuestoes() {
+        container.innerHTML = "";
+        questoes.forEach((q, idx) => {
+            const card = document.createElement("div");
+            card.className = "questao-card";
+            const numSpan = document.createElement("div");
+            numSpan.className = "questao-num";
+            numSpan.innerText = `Questão ${q.numeroVisual}`;
+            const bancaSpan = document.createElement("span");
+            bancaSpan.className = "banca-ano";
+            bancaSpan.innerText = `${q.banca} - ${q.ano}`;
+            numSpan.appendChild(bancaSpan);
+            const idOriginalSpan = document.createElement("span");
+            idOriginalSpan.className = "id-original";
+            idOriginalSpan.innerText = `ID Original: ${q.idOriginal}`;
+            numSpan.appendChild(idOriginalSpan);
+            card.appendChild(numSpan);
+
+            const enunciadoDiv = document.createElement("div");
+            enunciadoDiv.className = "enunciado";
+            enunciadoDiv.innerText = `${q.numeroVisual}. ${q.enunciado}`;
+            card.appendChild(enunciadoDiv);
+
+            const altDiv = document.createElement("div");
+            altDiv.className = "alternativas";
+            const letras = ["A", "B", "C", "D", "E"];
+            q.alternativas.forEach((alt, altIdx) => {
+                const letra = letras[altIdx];
+                const item = document.createElement("div");
+                item.className = "alt-item";
+                const radio = document.createElement("input");
+                radio.type = "radio";
+                radio.name = `q${idx}`;
+                radio.value = letra;
+                radio.id = `q${idx}_${letra}`;
+                if (respostasUsuario[idx] === letra) radio.checked = true;
+                radio.addEventListener("change", (e) => {
+                    if (e.target.checked) respostasUsuario[idx] = letra;
+                });
+                const label = document.createElement("label");
+                label.htmlFor = `q${idx}_${letra}`;
+                label.innerText = `${letra}) ${alt}`;
+                item.appendChild(radio);
+                item.appendChild(label);
+                altDiv.appendChild(item);
+            });
+            card.appendChild(altDiv);
+            container.appendChild(card);
+        });
+    }
+
+    function limparRespostas() {
+        respostasUsuario = new Array(questoes.length).fill(null);
+        renderizarQuestoes();
+        document.getElementById("resultadoPanel").style.display = "none";
+        document.getElementById("registroFeedback").style.display = "none";
+    }
+
+    function registrarResultadoInterno(nome, acertos, percentual, detalhes, total) {
+        const registro = {
+            nome: nome || "Anônimo",
+            data: new Date().toLocaleString(),
+            acertos: acertos,
+            total: total,
+            percentual: percentual.toFixed(1)
+        };
+        let historico = localStorage.getItem("simulado_fisica_historico");
+        let lista = historico ? JSON.parse(historico) : [];
+        lista.unshift(registro);
+        if (lista.length > 10) lista.pop();
+        localStorage.setItem("simulado_fisica_historico", JSON.stringify(lista));
+        const feedbackDiv = document.getElementById("registroFeedback");
+        feedbackDiv.innerHTML = `📀 Resultado registrado internamente em ${registro.data}. Seu desempenho foi salvo (últimos 10 simulados).`;
+        feedbackDiv.style.display = "block";
+        setTimeout(() => {
+            if (feedbackDiv.style.display === "block") feedbackDiv.style.opacity = "0.8";
+        }, 3000);
+    }
+
+    function corrigirSimulado() {
+        let nomeAluno = nomeInput.value.trim();
+        if (nomeAluno === "") nomeAluno = "Não informado";
+
+        let acertos = 0;
+        let detalhes = [];
+        let errosPorTema = {};
+
+        for (let i = 0; i < questoes.length; i++) {
+            const q = questoes[i];
+            const respUser = respostasUsuario[i];
+            const correta = q.correta;
+            const isAcertou = (respUser === correta);
+            if (isAcertou) acertos++;
+            detalhes.push({
+                numero: q.numeroVisual,
+                idOriginal: q.idOriginal,
+                enunciado: q.enunciado,
+                userResp: respUser || "Não respondida",
+                correta: correta,
+                acertou: isAcertou,
+                tema: q.tema,
+                banca: q.banca,
+                ano: q.ano
+            });
+            if (!isAcertou) {
+                errosPorTema[q.tema] = (errosPorTema[q.tema] || 0) + 1;
+            }
+        }
+
+        const percentual = (acertos / questoes.length) * 100;
+        const desempenho = percentual >= 70 ? "⭐ Bom desempenho!" : (percentual >= 50 ? "📘 Atenção, pode melhorar!" : "⚠️ Revisão necessária!");
+
+        registrarResultadoInterno(nomeAluno, acertos, percentual, detalhes, questoes.length);
+
+        let htmlResultado = `
+            <div class="resultado-area" id="resultadoParaImprimir">
+                <div class="resultado-titulo">
+                    📊 Resultado Final - Aluno: ${nomeAluno}
+                    <span class="nota">${acertos}/${questoes.length} (${percentual.toFixed(1)}%)</span>
+                </div>
+                <p><strong>${desempenho}</strong> — ${percentual >= 70 ? "Continue praticando!" : "Estude os tópicos com mais erros abaixo."}</p>
+                
+                <div style="margin-top: 15px;"><strong>📋 Gabarito detalhado (Banca/Ano incluso):</strong></div>
+                <div class="gabarito-lista">
+        `;
+
+        detalhes.forEach(d => {
+            const status = d.acertou ? "✅" : "❌";
+            const userText = d.userResp !== "Não respondida" ? d.userResp : "—";
+            htmlResultado += `
+                <div class="gabarito-item">
+                    <span style="min-width: 55px;"><strong>Q${d.numero}</strong></span>
+                    <span style="min-width: 45px; font-size:0.7rem; color:#666;">(ID:${d.idOriginal})</span>
+                    <span style="flex:2;">${status} Sua: ${userText} | Correta: ${d.correta}</span>
+                    <span style="color:#3a6b8c; font-size:0.7rem; background:#eef; padding:2px 8px; border-radius:20px;">${d.banca} ${d.ano}</span>
+                    <span style="font-size:0.7rem; color:#1f5e7a;">${d.tema}</span>
+                </div>
+            `;
+        });
+
+        htmlResultado += `</div>`;
+
+        let melhoriasHtml = `<div class="melhorias"><strong>📌 O que você pode melhorar (assuntos com mais erros):</strong><ul>`;
+        if (Object.keys(errosPorTema).length === 0) {
+            melhoriasHtml += `<li>Parabéns! Você não errou nenhuma questão. Domina os fundamentos de física das radiações!</li>`;
+        } else {
+            const temasOrdenados = Object.entries(errosPorTema).sort((a,b) => b[1] - a[1]);
+            for (let [tema, qtd] of temasOrdenados) {
+                melhoriasHtml += `<li><strong>${tema}</strong>: errou ${qtd} questão(ões). Revisar fundamentos sobre ${tema}.</li>`;
+            }
+            melhoriasHtml += `<li style="margin-top:8px;">💡 Sugestão: revise os conceitos de interação da radiação, propriedades dos raios X, parâmetros técnicos e qualidade de imagem.</li>`;
+        }
+        melhoriasHtml += `</ul></div>`;
+
+        const dataAtual = new Date().toLocaleString();
+        const impressaoHtml = `
+            <div class="impressao-info">
+                <hr style="margin: 12px 0; opacity:0.3;">
+                <div><strong>🖨️ Relatório do simulado - ${dataAtual}</strong></div>
+                <div>👤 Aluno: ${nomeAluno} | ✅ Acertos: ${acertos}/${questoes.length} (${percentual.toFixed(1)}%)</div>
+                <div>📖 Gabarito comparado com suas respostas.</div>
+                <div>🔍 Tópicos com maior dificuldade: ${Object.keys(errosPorTema).length ? Object.keys(errosPorTema).slice(0,3).join(", ") : "Nenhum"}</div>
+                <button id="btnImprimirRelatorioPDF" style="margin-top: 10px; background:#2c5a6e; padding:6px 18px;">🖨️ Salvar/Imprimir como PDF</button>
+            </div>
+        `;
+
+        htmlResultado += melhoriasHtml;
+        htmlResultado += impressaoHtml;
+        htmlResultado += `</div>`;
+
+        const panel = document.getElementById("resultadoPanel");
+        panel.innerHTML = htmlResultado;
+        panel.style.display = "block";
+
+        const btnPDF = document.getElementById("btnImprimirRelatorioPDF");
+        if (btnPDF) {
+            btnPDF.addEventListener("click", () => {
+                const conteudo = document.getElementById("resultadoParaImprimir").cloneNode(true);
+                const botoes = conteudo.querySelectorAll("#btnImprimirRelatorioPDF");
+                botoes.forEach(btn => btn.remove());
+                const janela = window.open('', '_blank');
+                janela.document.write(`
+                    <html><head><title>Relatório Simulado - ${nomeAluno}</title>
+                    <style>body { font-family: 'Segoe UI', sans-serif; margin: 30px; } .resultado-area { border: 1px solid #0b3b5f; padding: 20px; } .gabarito-lista { max-height: none; } button { display: none; } .impressao-info button { display: none; }</style>
+                    </head><body>${conteudo.outerHTML}</body></html>
+                `);
+                janela.document.close();
+                janela.print();
+            });
+        }
+        panel.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function imprimirPDFCompleto() {
+        const resultadoDiv = document.getElementById("resultadoPanel");
+        if (!resultadoDiv || resultadoDiv.style.display === "none") {
+            alert("Corrija o simulado primeiro para gerar o resultado antes de imprimir o PDF.");
+            return;
+        }
+        const conteudo = document.getElementById("resultadoParaImprimir").cloneNode(true);
+        const botoes = conteudo.querySelectorAll("button");
+        botoes.forEach(btn => btn.remove());
+        const janela = window.open('', '_blank');
+        janela.document.write(`
+            <html><head><title>Simulado Física das Radiações - Resultado</title>
+            <style>body { font-family: 'Segoe UI', sans-serif; margin: 30px; } .resultado-area { border: 1px solid #0b3b5f; padding: 20px; } .gabarito-lista { max-height: none; }</style>
+            </head><body>${conteudo.outerHTML}</body></html>
+        `);
+        janela.document.close();
+        janela.print();
+    }
+
+    document.getElementById("btnCorrigir").addEventListener("click", corrigirSimulado);
+    document.getElementById("btnLimpar").addEventListener("click", limparRespostas);
+    document.getElementById("btnImprimirPDF").addEventListener("click", imprimirPDFCompleto);
+
+    renderizarQuestoes();
+</script>
+</body>
+</html>
